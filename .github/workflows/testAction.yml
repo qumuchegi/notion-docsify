@@ -1,6 +1,6 @@
 name: test-github-action
 on: 
-  schedule
+  schedule:
     - cron: '30 13 * * *'
 jobs:
   test_nodejs
