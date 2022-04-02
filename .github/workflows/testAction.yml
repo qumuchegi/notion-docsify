@@ -2,7 +2,7 @@ name: test-github-action
 on:
   push:
   schedule:
-    - cron: "55 5 * * *" # 北京时间 13:55
+    - cron: "10 6 * * *" # 北京时间 14:10, 可在这里生成 https://crontab.guru/examples.html
 jobs:
   test_nodejs:
     runs-on: ubuntu-latest
