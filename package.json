@@ -4,5 +4,8 @@
   "description": "将 notion 的页面转化为静态网站",
   "main": "index.js",
   "author": "qumuchegi",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test-action": "npm run scripts/testActions.js"
+  }
 }
