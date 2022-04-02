@@ -1,5 +1,6 @@
 name: test-github-action
 on:
+  push:
   schedule:
     - cron: "35 13 * * *"
 jobs:
