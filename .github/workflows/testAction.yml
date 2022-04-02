@@ -2,7 +2,7 @@ name: test-github-action
 on:
   push:
   schedule:
-    - cron: "35 13 * * *"
+    - cron: "55 5 * * *" # 北京时间 13:55
 jobs:
   test_nodejs:
     runs-on: ubuntu-latest
