@@ -6,6 +6,6 @@
   "author": "qumuchegi",
   "license": "MIT",
   "scripts": {
-    "test-action": "npm run scripts/testActions.js"
+    "test-action": "node scripts/testActions.js"
   }
 }
