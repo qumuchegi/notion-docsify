@@ -1,7 +1,7 @@
 name: test-github-action
 on:
   schedule:
-    - cron: "30 13 * * *"
+    - cron: "35 13 * * *"
 jobs:
   test_nodejs:
     runs-on: ubuntu-latest
