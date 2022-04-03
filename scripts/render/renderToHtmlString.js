@@ -3,8 +3,6 @@ import { renderToString } from 'react-dom/server'
 import { NotionRenderer, Equation, Collection, CollectionRow, Code } from 'react-notion-x'
 // import { NodeHtmlMarkdown, NodeHtmlMarkdownOptions } from 'node-html-markdown'
 // import '../style/notion-render.css'
-import fs from 'fs'
-import path from 'path'
 
 // const nhm = new NodeHtmlMarkdown(
 //   /* options (optional) */ {}, 

@@ -1,4 +1,4 @@
-name: test-github-action
+name: backup-notion
 on:
   push:
   schedule:
@@ -17,3 +17,8 @@ jobs:
         run: npm run build
         continue-on-error: true
       - run: npm run run-backup "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
+      - name: backup as artifact
+        uses: actions/upload-artifact@v3
+        with: 
+          name: notion-backup-zip
+          path: backupZip
