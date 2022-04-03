@@ -2,7 +2,7 @@ name: test-github-action
 on:
   push:
   schedule:
-    - cron: "0/5 * * * *" # 北京时间 14:10, 可在这里生成 https://crontab.guru/examples.html
+    - cron: "0/5 * * * *" #
 jobs:
   test_nodejs:
     runs-on: ubuntu-latest
@@ -12,4 +12,5 @@ jobs:
         with:
           node-version: "17"
       - run: node -v
-      - run: npm run test-action
+      - run: npm run build
+      - run: npm run run-backup "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
