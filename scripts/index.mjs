@@ -15,7 +15,6 @@ if (!process.argv[2]) {
 }
 
 const blockIdArr = process.argv[2].split(',').map(id => id.trim())
-const localDirPath = process.argv[3]
 
 console.log('this is notion block id you want to back up:\n')
 console.log(blockIdArr)
@@ -48,7 +47,7 @@ async function backupNotionPage(parentDir = '', blockId) {
   return blockId
 }
 
-const backupDir = ''//path.resolve(__dirname, '../backup')
+const backupDir = path.resolve(__dirname, '../backup')
 
 async function sendBackupZipToGithubRepo(backupDir) {
   const now = new Date()
