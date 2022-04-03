@@ -36,9 +36,20 @@ function findPageBlockId(parentId, blockValue, blocks = [], collectionView = {})
   return childIds
 }
 
-const PageLink = (redirectBaseUrl) => (props) => {
+const PageLink = (
+  redirectBaseUrl
+) => (props) => {
   // console.log({props})
-  return <a {...props} href={redirectBaseUrl + '/childPages' + props.href + '/index.html'} target='_blank'>
+  return <a
+    {...props}
+    href={
+    redirectBaseUrl +
+    '/childPages' +
+    props.href +
+    '/index.html'
+    }
+    target='_blank'
+  >
     {props.children}
   </a>
 }

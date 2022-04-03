@@ -4,7 +4,6 @@ import { renderNotionPage } from './render/renderToHtmlString.js'
 import path from 'path'
 import fs from 'fs'
 import AdmZip from 'adm-zip'
-import { Octokit } from "@octokit/rest"
 
 // npm run run-backup blockids "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
 
@@ -15,15 +14,8 @@ if (!process.argv[2]) {
   throw 'can not get notion block id!'
 }
 
-// if (!process.argv[4]) {
-//   throw 'can not get github username and password'
-// }
-
-// if (!process.argv[5]) {
-//   throw 'can not get repo name'
-// }
-
 const blockIdArr = process.argv[2].split(',').map(id => id.trim())
+const localDirPath = process.argv[3]
 
 console.log('this is notion block id you want to back up:\n')
 console.log(blockIdArr)
@@ -56,32 +48,15 @@ async function backupNotionPage(parentDir = '', blockId) {
   return blockId
 }
 
-const backupDir = path.resolve(__dirname, '../backup')
+const backupDir = ''//path.resolve(__dirname, '../backup')
 
 async function sendBackupZipToGithubRepo(backupDir) {
   const now = new Date()
   const zip = new AdmZip()
   zip.addLocalFolder(backupDir)
   fs.mkdirSync( path.resolve(__dirname, `../backupZip`))
-  const zipPath = path.resolve(__dirname, `../backupZip/backup-notion.zip`)
+  const zipPath = path.resolve(__dirname, `../backupZip/backup-notion-${now.toLocaleString()}.zip`)
   zip.writeZip(zipPath)
-
-  // const octokit = new Octokit({
-  //   auth: githubToken, // "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",
-  // })
-  // const {data: me} = await octokit.request('/user')
-  // console.log({me})
-  // octokit.rest.repos.createOrUpdateFileContents({
-  //   owner: me.login,
-  //   repo: repoName,
-  //   path: 'backup.zip',
-  //   message: 'new backup',
-  //   content: ,
-  //   committer.name,
-  //   committer.email,
-  //   author.name,
-  //   author.email
-  // })
 }
 
 
@@ -110,6 +85,6 @@ Promise.allSettled(
   }])
   sendBackupZipToGithubRepo(backupDir)
 }).catch(err => {
-  // console.error('fail~~', err)
+  console.error('fail~~', err)
 })
 
