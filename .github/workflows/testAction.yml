@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "17"
-      - name: install dep
+      # - name: install dep
         run: npm install
         #run: node -v
       - name: build-script # 打包脚本，这一步允许部分失败（有一个依赖浏览器环境的考验忽略）
