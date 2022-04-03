@@ -55,7 +55,7 @@ async function sendBackupZipToGithubRepo(backupDir) {
   const zip = new AdmZip()
   zip.addLocalFolder(backupDir)
   fs.mkdirSync( path.resolve(__dirname, `../backupZip`))
-  const zipPath = path.resolve(__dirname, `../backupZip/backup-notion-${now.toLocaleString()}.zip`)
+  const zipPath = path.resolve(__dirname, `../backupZip/backup-notion-${now.getTime()}.zip`)
   zip.writeZip(zipPath)
 }
 
