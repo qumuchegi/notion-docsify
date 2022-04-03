@@ -11,21 +11,19 @@ import { Octokit } from "@octokit/rest"
 console.log('-----notion backup start-----', process.argv)
 console.log('read notion block id from your cmd argv')
 
-if (!process.argv[3]) {
+if (!process.argv[2]) {
   throw 'can not get notion block id!'
 }
 
-if (!process.argv[4]) {
-  throw 'can not get github username and password'
-}
+// if (!process.argv[4]) {
+//   throw 'can not get github username and password'
+// }
 
 // if (!process.argv[5]) {
 //   throw 'can not get repo name'
 // }
 
-const blockIdArr = process.argv[3].split(',').map(id => id.trim())
-const githubToken = process.argv[4]
-const repoName = process.argv[5]
+const blockIdArr = process.argv[2].split(',').map(id => id.trim())
 
 console.log('this is notion block id you want to back up:\n')
 console.log(blockIdArr)
