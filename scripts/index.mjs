@@ -40,9 +40,11 @@ async function backupNotionPage(parentDir = '', blockId) {
   if (childPagesId.length > 0) {
     const childDir = `${dirPath}/childPages`
     fs.mkdirSync(childDir, { recursive: true })
-    childPagesId.forEach(id => {
-      await backupNotionPage(childDir, id)
-    })
+    await Promise.all(
+      childPagesId.map(id => {
+        return backupNotionPage(childDir, id)
+      })
+    )
   }
   return blockId
 }
