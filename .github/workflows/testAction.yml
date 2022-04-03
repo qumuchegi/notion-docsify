@@ -15,9 +15,5 @@ jobs:
       - run: npm install
       - name: build script
         run: npm run build
-        with:
-          node-version: "17"
         continue-on-error: true
       - run: npm run run-backup "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
-        with:
-          node-version: "17"
