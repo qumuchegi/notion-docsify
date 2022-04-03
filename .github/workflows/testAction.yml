@@ -7,18 +7,17 @@ jobs:
   backup-notion:
     runs-on: ubuntu-latest
     steps:
-      # 初始化环境
-      - name: set-up
+      - name: set-up # 初始化环境
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: "17"
       - run: node -v
-      # 打包脚本，这一步允许部分失败（有一个依赖浏览器环境的考验忽略）
-      - name: build-script
+
+      - name: build-script # 打包脚本，这一步允许部分失败（有一个依赖浏览器环境的考验忽略）
       - run: npm install
       - run: npm run build
       continue-on-error: true
-      # 运行脚本
-      - name: start-script
+
+      - name: start-script # 运行脚本
       - run: npm run run-backup "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
