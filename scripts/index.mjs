@@ -9,7 +9,7 @@ import fs from 'fs'
 console.log('-----notion backup start-----', process.argv)
 console.log('read notion block id from your cmd argv')
 
-if (!process.argv[3]) {
+if (!process.argv[2]) {
   throw 'can not get notion block id!'
 }
 
