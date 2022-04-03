@@ -41,11 +41,11 @@ const PageLink = (
 ) => (props) => {
   // console.log({props})
   // 把 backup 前面的去掉
-  const relativePath = redirectBaseUrl.match(/.*?(backup\/)(.*)/)[2]
+  // const relativePath = redirectBaseUrl.match(/.*?(backup\/)(.*)/)[2]
   return <a
     {...props}
     href={
-      relativePath +
+      // relativePath +
       '/childPages' +
       props.href +
       '/index.html'
