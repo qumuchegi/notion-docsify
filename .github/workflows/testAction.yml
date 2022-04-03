@@ -13,11 +13,9 @@ jobs:
         with:
           node-version: "17"
         run: node -v
-
       - name: build-script # 打包脚本，这一步允许部分失败（有一个依赖浏览器环境的考验忽略）
         run: npm install
         run: npm run build
         continue-on-error: true
-
       - name: start-script # 运行脚本
         run: npm run run-backup "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
