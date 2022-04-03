@@ -13,7 +13,7 @@ if (!process.argv[2]) {
   throw 'can not get notion block id!'
 }
 
-const blockIdArr = process.argv[3].split(',').map(id => id.trim())//'1c3ca781039447228f3c0bbf9b8ed74c'
+const blockIdArr = process.argv[2].split(',').map(id => id.trim())//'1c3ca781039447228f3c0bbf9b8ed74c'
 
 console.log('this is notion block id you want to back up:\n')
 console.log(blockIdArr)
