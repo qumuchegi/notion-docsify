@@ -6,7 +6,7 @@ import fs from 'fs'
 
 // npm run run-backup blockids "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277, 1"
 
-console.log('-----notion backup start-----')
+console.log('-----notion backup start-----', process.argv)
 console.log('read notion block id from your cmd argv')
 
 if (!process.argv[3]) {
