@@ -1,6 +1,6 @@
 name: backup-notion
 env:
-  NOTION_BLOCK_ID: "'3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277'"
+  NOTION_BLOCK_ID: "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
 on:
   push:
   schedule:
