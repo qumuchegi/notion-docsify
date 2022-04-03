@@ -18,11 +18,16 @@ function findPageBlockId(parentId, blockValue, blocks = [], collectionView = {})
     return []
   }
   blocks.forEach(block => {
-    const isSubPage = blockValue.content.includes(block.value.id)
-      && CHILD_BLOCK_TYPE.includes(block.value.type)
+    // isSubPage 直接子页面
+    const isSubPage = blockValue.content.includes(block.value.id) &&
+      CHILD_BLOCK_TYPE.includes(block.value.type)
     if (isSubPage) {
       childIds.push(block.value.id)
     }
+
+    // 间接子页面，比如复制的其他 notion 页面的链接（非直接子页面）
+
+    // collection page
     let collectionSubPageIds = []
     if (block.value.type === 'collection_view') {
       if (block.value.parent_id === generatePageId(parentId)) {
@@ -44,6 +49,7 @@ const PageLink = (
   // const relativePath = redirectBaseUrl.match(/.*?(backup\/)(.*)/)[2]
   return <a
     {...props}
+    className={props.className + ' notion-link-rewrite-base-path'}
     href={
       // relativePath +
       '/childPages' +
@@ -79,6 +85,16 @@ export function renderNotionPage(parentDir, recordMap, blockId) {
     htmlStr: `<html>
           <head>
             <link rel='stylesheet' href='${notionRenderCSSCDN}'/>
+            <script type='text/javascript'>
+              window.onload = () => {
+                const pageLinks = document.getElementsByClassName('notion-link-rewrite-base-path')
+                console.log({pageLinks})
+                for(let i = 0; i < pageLinks.length; i++) {
+                  const linkNode = pageLinks[i]
+                  linkNode.href = window.location.href.replace('/index.html', '') + linkNode.href.replace('file:///', '/')
+                }
+              }
+            </script>
           </head>
           <body>
             ${htmlStr}
