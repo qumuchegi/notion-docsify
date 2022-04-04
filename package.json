@@ -6,8 +6,7 @@
   "author": "qumuchegi",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode=production",
-    "dev-build": "webpack --config webpack.config.js --mode=development",
+    "build": "webpack --config webpack.config.js --mode=development",
     "run-backup": "node build/bundle.js"
   },
   "dependencies": {

@@ -2,7 +2,6 @@ const path = require('path')
 
 module.exports = {
   target: 'node',
-  mode: 'production',
   context: path.resolve(__dirname, 'scripts'),
   entry: '/index.mjs',
   output: {
