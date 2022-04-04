@@ -18,7 +18,7 @@ if (!isDev && !process.argv[2]) {
 
 // 测试 notion page id：917c1456eb6b472590f3611fb57b691c（子页面不是直接子页面，而是其他页面的链接）
 
-const blockIdArr = isDev ? ['713b6661d9904d57a1b310ef334257c0'] : process.argv[2].split(',').map(id => id.trim())
+const blockIdArr = process.argv[2].split(',').map(id => id.trim())
 
 console.log('this is notion block id you want to back up:\n')
 console.log(blockIdArr)
