@@ -1,9 +1,8 @@
 const path = require('path')
-// const CopyAssets = require('copy-webpack-plugin')
 
 module.exports = {
   target: 'node',
-  mode: 'development',
+  mode: 'production',
   context: path.resolve(__dirname, 'scripts'),
   entry: '/index.mjs',
   output: {
@@ -12,18 +11,18 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader'
-          }
-        ],
-        exclude: /node_modules/
-      },
+      // {
+      //   test: /\.css$/,
+      //   use: [
+      //     {
+      //       loader: 'style-loader'
+      //     },
+      //     {
+      //       loader: 'css-loader'
+      //     }
+      //   ],
+      //   exclude: /node_modules/
+      // },
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',

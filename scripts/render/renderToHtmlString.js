@@ -25,15 +25,20 @@ function findPageBlockId(parentId, blockValue, blocks = [], collectionView = {})
       childIds.push(block.value.id)
     }
 
-    // 间接子页面，比如复制的其他 notion 页面的链接（非直接子页面）
+    // todo 间接子页面，比如复制的其他 notion 页面的链接（非直接子页面）
 
     // collection page
     let collectionSubPageIds = []
     if (block.value.type === 'collection_view') {
       if (block.value.parent_id === generatePageId(parentId)) {
-        collectionSubPageIds = collectionView[
-          block.value.view_ids[0]
-        ].value.page_sort
+        // collectionSubPageIds = collectionView[
+        //   block.value.view_ids[0]
+        // ].value.page_sort
+        block.value.view_ids.forEach(viewId => {
+          collectionSubPageIds.push(
+            ...(collectionView[viewId].value.page_sort)
+          )
+        })
       }
     }
     childIds.push(...collectionSubPageIds)
@@ -45,8 +50,6 @@ const PageLink = (
   redirectBaseUrl
 ) => (props) => {
   // console.log({props})
-  // 把 backup 前面的去掉
-  // const relativePath = redirectBaseUrl.match(/.*?(backup\/)(.*)/)[2]
   return <a
     {...props}
     className={props.className + ' notion-link-rewrite-base-path'}

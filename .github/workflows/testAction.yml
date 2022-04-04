@@ -1,10 +1,10 @@
 name: backup-notion
 env:
-  NOTION_BLOCK_ID: 3c2614e58cf64399b5b561e873ef61e5,26c9e464186648c38160ed5b8e5a3277
+  NOTION_BLOCK_ID: 917c1456eb6b472590f3611fb57b691c
 on:
   push:
   schedule:
-    - cron: "0/5 * * * *" #
+    - cron: "10 23,4,11 * * *" #在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次，也就是每天备份三次
 jobs:
   backup-notion:
     runs-on: ubuntu-latest
