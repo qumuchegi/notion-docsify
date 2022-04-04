@@ -6,9 +6,9 @@
 
 - notion 是美帝公司，可能由于一些政治因素国内的用户突然访问不了
 
-- notion 本身服务崩溃，数据丢失
+- notion 本身可能服务崩溃，数据丢失
 
-处于这些原因，我们有必要给一些重要的数据做备份
+出于这些原因，我们有必要给一些重要的数据做备份
 
 ### use
 
@@ -19,7 +19,7 @@
    
 2. fork 此项目仓库
 
-3. git clone 这个仓库在你本地，然后打开 `.github/wrokflows.testAction.yml`，把 `NOTION_BLOCK_ID` 后面那一行的内容改成你自己的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号后面不要流空格**）
+3. git clone 这个仓库在你本地，然后打开 `.github/wrokflows.testAction.yml`，把 `NOTION_BLOCK_ID` 后面那一行的内容改成你自己的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
 
    另外注意的是，你不需要单独把子页面的 id 放在这里，只要有父页面的 id，子页面也会被备份，父页面下的所有子页面会被递归备份。
 
@@ -52,12 +52,14 @@
               path: backupZip
 
     ```
-4. 本地仓库各目录运行 `git commit` ， `git push`
+4. 本地仓库根目录运行 `git commit` ， `git push`
 
-    这个 `.github/wrokflows.testAction.yml` 会每天三次做一次自动备份。备份的结果会放在每次备份任务的 `Artifacts`，你可以在这里下载备份结果。
+    这个 `.github/wrokflows.testAction.yml` 会每天三次做一次自动备份。备份的结果会放在每次备份任务的 `Artifacts`，你可以在这里 (Actions) 下载备份结果。
+
+    ![](/readmeAssets/img/4.png)
 
     ![](/readmeAssets/img/2.png)
 
-     下载备份结果到本地，解压，只需要把顶级的 `index.html` 打开，里面的子页面的链接会自动改成本地的地址，点击 `index.html` 里面的链接可以打开下面的子页面。
+     下载备份结果到本地，解压，只需要把顶级的 `index.html` 在浏览器打开，里面的子页面的链接会自动改成本地的地址，点击 `index.html` 里面的链接可以在浏览器自动打开子页面。
 
      ![](/readmeAssets/img/3.png)
