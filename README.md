@@ -26,7 +26,7 @@
     ```yml
     name: backup-notion
     env:
-      NOTION_BLOCK_ID: 917c1456eb6b472590f3611fb57b691c
+      NOTION_BLOCK_ID: xxxxxxxxx
     on:
       push:
       schedule:
@@ -58,6 +58,7 @@
 
     ![](/readmeAssets/img/4.png)
 
+    备份结果：
     ![](/readmeAssets/img/2.png)
 
      下载备份结果到本地，解压，只需要把顶级的 `index.html` 在浏览器打开，里面的子页面的链接会自动改成本地的地址，点击 `index.html` 里面的链接可以在浏览器自动打开子页面。
