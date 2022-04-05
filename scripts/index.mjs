@@ -10,15 +10,15 @@ import AdmZip from 'adm-zip'
 console.log('-----notion backup start-----', process.argv)
 console.log('reading notion block id from your cmd argv ...')
 
-const isDev = process.env.NODE_ENV === 'development'
 
-if (!isDev && !process.argv[2]) {
-  throw 'can not get notion block id!'
-}
+// if (!process.argv[2]) {
+//   throw 'can not get notion block id!'
+// }
 
 // 测试 notion page id：917c1456eb6b472590f3611fb57b691c（子页面不是直接子页面，而是其他页面的链接）
-
+// 713b6661d9904d57a1b310ef334257c0
 const blockIdArr = process.argv[2].split(',').map(id => id.trim())
+const exportFileType = 'html' // process.argv[3]
 
 console.log('this is notion block id you want to back up:\n')
 console.log(blockIdArr)
@@ -38,13 +38,13 @@ async function backupNotionPage(parentDir = '', blockId) {
     failPageIdArr.push(blockId.replaceAll('-', ''))
     throw 'page fetch error'
   }
-  // blockId === '713b6661d9904d57a1b310ef334257c0' &&
+  // blockId === '917c1456eb6b472590f3611fb57b691c' &&
   // fs.writeFileSync(path.resolve(__dirname, '../log' + `/res${blockId}.json`), JSON.stringify(res2))
   // console.log({res2})
   const dirPath = `${parentDir}/${pureBlockId(blockId)}`
   fs.mkdirSync(dirPath, { recursive: true })
-  const { htmlStr, childPages: childPagesId } = renderNotionPage(dirPath, res2, blockId)
-  fs.writeFileSync(`${dirPath}/index.html`, htmlStr)
+  const { str, childPages: childPagesId } = renderNotionPage(dirPath, res2, blockId, exportFileType)
+  fs.writeFileSync(`${dirPath}/index.${exportFileType}`, str)
   // console.log(
   //   {
   //     blockId,
@@ -90,7 +90,6 @@ Promise.allSettled(
   })
 ).then(resultArr => {
   console.log('backup done')
-  isDev && console.log(resultArr)
   const successIds = resultArr.filter(({ status, value }) => {
     return status === 'fulfilled'
   }).map(i => i.value)
