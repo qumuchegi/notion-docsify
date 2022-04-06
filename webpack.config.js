@@ -1,4 +1,5 @@
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   target: 'node',
@@ -28,5 +29,16 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin(
+      {
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'scripts/style/notion-render.css'),
+            to: path.resolve(__dirname, 'build/style')
+          }
+        ]
+      })
+  ]
 }

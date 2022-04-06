@@ -3,6 +3,8 @@ import { renderToString } from 'react-dom/server'
 import { NotionRenderer, Equation, Collection, CollectionRow, Code } from 'react-notion-x'
 import convertHtmlToMd from './convertHtmlToMd'
 
+// const notionRenderCSSCDN = 'https://cdn.jsdelivr.net/npm/react-notion-x@4.13.0/src/styles.css'
+
 const CHILD_BLOCK_TYPE = [
   'page'
 ]
@@ -63,7 +65,7 @@ const PageLink = (
   </a>
 }
 
-export function renderNotionPage(parentDir, recordMap, blockId, fileType) { // fileType html/md
+export function renderNotionPage(parentDir, recordMap, blockId, fileType, notionRenderStylePath) { // fileType html/md
   const childPages = findPageBlockId(
     blockId,
     recordMap.block[generatePageId(blockId)].value,
@@ -88,12 +90,11 @@ export function renderNotionPage(parentDir, recordMap, blockId, fileType) { // f
       }}
     />
   )
-  const notionRenderCSSCDN = 'https://cdn.jsdelivr.net/npm/react-notion-x@4.13.0/src/styles.css'
   htmlStr = `<html>
       <head>
         <meta charset='utf-8'/>
         <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1,maximum-scale=1, minimum-scale=1">
-        <link rel='stylesheet' href='${notionRenderCSSCDN}'/>
+        <link rel='stylesheet' href='${notionRenderStylePath}'/>
         <script type='text/javascript'>
           window.onload = () => {
             const pageLinks = document.getElementsByClassName('notion-link-rewrite-base-path')

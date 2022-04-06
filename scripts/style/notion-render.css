@@ -860,7 +860,7 @@ svg.notion-page-icon {
   position: absolute;
   top: 1em;
   right: 1em;
-  user-select: none;
+  /* user-select: none; */
   z-index: 9;
   transition: opacity 0.2s cubic-bezier(0.3, 0, 0.5, 1);
 }
@@ -977,7 +977,7 @@ svg.notion-page-icon {
   border-radius: 3px;
   display: flex;
   overflow: hidden;
-  user-select: none;
+  /* user-select: none; */
 }
 
 .dark-mode .notion-bookmark {
@@ -1245,7 +1245,7 @@ svg.notion-page-icon {
 }
 
 .notion-table-view-header-cell-inner {
-  user-select: none;
+  /* user-select: none; */
   display: flex;
   width: 100%;
   height: 100%;
@@ -1456,7 +1456,7 @@ svg.notion-page-icon {
   color: var(--fg-color);
   transition: background 100ms ease-out 0s;
 
-  user-select: none;
+  /* user-select: none; */
   cursor: pointer;
 }
 
@@ -1718,7 +1718,7 @@ svg.notion-page-icon {
   transition: background 100ms ease-in, opacity 100ms ease-in;
 
   text-decoration: none;
-  user-select: none;
+  /* user-select: none; */
   transition: background 20ms ease-in 0s;
   cursor: pointer;
   width: 100%;
@@ -1792,7 +1792,7 @@ svg.notion-page-icon {
   border: 1px solid var(--fg-color-1);
   border-radius: 3px;
 
-  user-select: none;
+  /* user-select: none; */
   transition: background 20ms ease-in 0s;
   cursor: pointer;
 }
@@ -1932,7 +1932,7 @@ svg.notion-page-icon {
   display: inline-flex;
   color: inherit;
   fill: inherit;
-  user-select: none;
+  /* user-select: none; */
   border-radius: 3px;
   transition: background 20ms ease-in 0s;
 }
@@ -2300,7 +2300,7 @@ svg.notion-page-icon {
   padding: 4px 6px;
   border-radius: 3px;
   transition: background 120ms ease-in 0s;
-  user-select: none;
+  /* user-select: none; */
   background: transparent;
   cursor: pointer;
 }
@@ -2420,7 +2420,7 @@ svg.notion-page-icon {
 }
 
 .notion-search .clearButton {
-  user-select: none;
+  /* user-select: none; */
   border-radius: 20px;
   cursor: pointer;
   margin-left: 8px;
@@ -2477,7 +2477,7 @@ svg.notion-page-icon {
   font-size: 12px;
   min-height: 28px;
   color: rgba(55, 53, 47, 0.4);
-  user-select: none;
+  /* user-select: none; */
   padding: 0 16px;
   display: flex;
   flex-direction: column;
@@ -2501,7 +2501,7 @@ svg.notion-page-icon {
   padding: 8px 14px;
   border-bottom: 1px solid rgba(55, 53, 47, 0.06);
   font-size: 14px;
-  user-select: none;
+  /* user-select: none; */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -2728,7 +2728,7 @@ svg.notion-page-icon {
   display: flex;
   align-items: center;
   border-radius: 3px;
-  user-select: none;
+  /* user-select: none; */
   cursor: pointer;
   color: rgb(55, 53, 47);
   font-size: 14px;

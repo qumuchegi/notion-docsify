@@ -5,6 +5,8 @@ import path from 'path'
 import fs from 'fs'
 import AdmZip from 'adm-zip'
 
+const localNotionStyleFileName = 'style/notion-render.css'
+
 // npm run run-backup blockids "3c2614e58cf64399b5b561e873ef61e5, 26c9e464186648c38160ed5b8e5a3277"
 
 console.log('-----notion backup start-----', process.argv)
@@ -30,7 +32,7 @@ function pureBlockId(blockId) {
 }
 
 let failPageIdArr = []
-async function backupNotionPage(parentDir = '', blockId) {
+async function backupNotionPage(parentDir = '', blockId, dirDeep = 0) {
   let res2
   try {
     res2 = await NC2.getPage(blockId, { fetchCollections: true })
@@ -43,7 +45,8 @@ async function backupNotionPage(parentDir = '', blockId) {
   // console.log({res2})
   const dirPath = `${parentDir}/${pureBlockId(blockId)}`
   fs.mkdirSync(dirPath, { recursive: true })
-  const { str, childPages: childPagesId } = renderNotionPage(dirPath, res2, blockId, exportFileType)
+  const notionRenderStylePath = '../'.repeat((Math.max(dirDeep, 0)) * 2 + 1) + localNotionStyleFileName
+  const { str, childPages: childPagesId } = renderNotionPage(dirPath, res2, blockId, exportFileType, notionRenderStylePath)
   fs.writeFileSync(`${dirPath}/index.${exportFileType}`, str)
   // console.log(
   //   {
@@ -60,7 +63,7 @@ async function backupNotionPage(parentDir = '', blockId) {
     fs.mkdirSync(childDir, { recursive: true })
     await Promise.allSettled( // 不能用 Promise.all，不能因为有一个 page 解析失败而影响后面全部的 page
       childPagesId.map(id => {
-        return backupNotionPage(childDir, id.replaceAll('-', ''))
+        return backupNotionPage(childDir, id.replaceAll('-', ''), dirDeep + 1)
       })
     )
   }
@@ -78,11 +81,16 @@ async function zipBackupDir() {
   zip.writeZip(zipPath)
 }
 
+// 复制 css 文件
+fs.cpSync(
+  path.resolve(__dirname, './style/notion-render.css'),
+  backupDir + '/style/notion-render.css'
+)
 
 Promise.allSettled(
   blockIdArr.map(id => {
     try {
-      return backupNotionPage(backupDir, id)
+      return backupNotionPage(backupDir, id, 0)
     } catch (err) {
       console.log(err)
       return id
