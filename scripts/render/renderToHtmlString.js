@@ -3,11 +3,59 @@ import { renderToString } from 'react-dom/server'
 import { NotionRenderer, Equation, Collection, CollectionRow, Code } from 'react-notion-x'
 import convertHtmlToMd from './convertHtmlToMd'
 
-// const notionRenderCSSCDN = 'https://cdn.jsdelivr.net/npm/react-notion-x@4.13.0/src/styles.css'
-
+const CLASSNAME_REWRITE__NOTION_LINK = 'notion-link-rewrite-base-path'
 const CHILD_BLOCK_TYPE = [
   'page'
 ]
+
+/**
+ notion block type:
+ 
+ export declare type BlockType = 
+  | 'page'
+  | 'text'
+  | 'bookmark'
+  | 'bulleted_list'
+  | 'numbered_list'
+  | 'header'
+  | 'sub_header'
+  | 'sub_sub_header'
+  | 'quote'
+  | 'equation'
+  | 'to_do'
+  | 'table_of_contents'
+  | 'divider'
+  | 'column_list'
+  | 'column'
+  | 'callout'
+  | 'toggle'
+  | 'image'
+  | 'embed'
+  | 'gist'
+  | 'video'
+  | 'figma'
+  | 'typeform'
+  | 'codepen'
+  | 'excalidraw'
+  | 'tweet'
+  | 'maps'
+  | 'pdf'
+  | 'audio'
+  | 'drive'
+  | 'file'
+  | 'code'
+  | 'collection_view'
+  | 'collection_view_page'
+  | 'transclusion_container'
+  | 'transclusion_reference'
+  | 'alias'
+  | 'table'
+  | 'table_row'
+  | 'external_object_instance'
+  | string;
+
+ */
+
 function findPageBlockId(parentId, blockValue, blocks = [], collectionView = {}) {
   let childIds = []
   if (!blockValue.content) {
@@ -22,13 +70,10 @@ function findPageBlockId(parentId, blockValue, blocks = [], collectionView = {})
       childIds.push(block.value.id)
     }
 
-    // collection page
+    // collection sub page
     let collectionSubPageIds = []
     if (block.value.type === 'collection_view') {
       if (block.value.parent_id === generatePageId(parentId)) {
-        // collectionSubPageIds = collectionView[
-        //   block.value.view_ids[0]
-        // ].value.page_sort
         block.value.view_ids.forEach(viewId => {
           collectionSubPageIds.push(
             ...(collectionView[viewId].value.page_sort)
@@ -45,16 +90,14 @@ const PageLink = (
   fileType, // html/md
   childPagesIdArr = []
 ) => (props) => {
-  // console.log({props, childPagesIdArr})
   const id = props.href.match(/\/(.*)/)[1]
   const isSubPage = childPagesIdArr.includes(generatePageId(id))
   return <a
     {...props}
-    className={props.className + (isSubPage ? ' notion-link-rewrite-base-path' : '')}
+    className={props.className + (isSubPage ? ` ${CLASSNAME_REWRITE__NOTION_LINK}` : '')}
     href={
       isSubPage
-      ?
-        ('/childPages' +
+      ? ('/childPages' +
         props.href +
         `/index.${fileType}`)
       : ('https://www.notion.so' + props.href)
@@ -65,7 +108,13 @@ const PageLink = (
   </a>
 }
 
-export function renderNotionPage(parentDir, recordMap, blockId, fileType, notionRenderStylePath) { // fileType html/md
+export function renderNotionPage(
+  parentDir,
+  recordMap,
+  blockId,
+  fileType,
+  notionRenderStylePath
+) { // fileType html/md
   const childPages = findPageBlockId(
     blockId,
     recordMap.block[generatePageId(blockId)].value,
@@ -80,7 +129,6 @@ export function renderNotionPage(parentDir, recordMap, blockId, fileType, notion
       fullPage={false}
       darkMode={false}
       showTableOfContents
-      // disableHeader
       components={{
         equation: Equation,
         code: Code,
@@ -97,8 +145,7 @@ export function renderNotionPage(parentDir, recordMap, blockId, fileType, notion
         <link rel='stylesheet' href='${notionRenderStylePath}'/>
         <script type='text/javascript'>
           window.onload = () => {
-            const pageLinks = document.getElementsByClassName('notion-link-rewrite-base-path')
-            console.log({pageLinks})
+            const pageLinks = document.getElementsByClassName('${CLASSNAME_REWRITE__NOTION_LINK}')
             for(let i = 0; i < pageLinks.length; i++) {
               const linkNode = pageLinks[i]
               linkNode.href = window.location.href.replace('/index.html', '') + linkNode.href.replace('file:///', '/')
