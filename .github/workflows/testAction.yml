@@ -1,6 +1,5 @@
 name: backup-notion
-env:
-  NOTION_BLOCK_ID: 713b6661d9904d57a1b310ef334257c0
+
 on:
   push:
   schedule:
@@ -18,7 +17,7 @@ jobs:
       - name: build script
         run: npm run build
         continue-on-error: true
-      - run: npm run run-backup $NOTION_BLOCK_ID
+      - run: npm run run-backup $NOTION_PAGE_IDS
       - name: backup as artifact
         uses: actions/upload-artifact@v3
         with: 

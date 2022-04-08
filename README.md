@@ -19,38 +19,36 @@
    
 2. fork 此项目仓库
 
-3. git clone 这个仓库在你本地，然后打开 `.github/wrokflows.testAction.yml`，把 `NOTION_BLOCK_ID` 后面那一行的内容改成你自己的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
+3. git clone 这个仓库在你本地，然后打开 `.github/wrokflows/testAction.yml`，把 `NOTION_BLOCK_ID` 后面那一行的内容改成你自己的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
 
    另外注意的是，你不需要单独把子页面的 id 放在这里，只要有父页面的 id，子页面也会被备份，父页面下的所有子页面会被递归备份。
 
     ```yml
     name: backup-notion
-    env:
-      NOTION_BLOCK_ID: xxxxxxxxx
-    on:
-      push:
-      schedule:
-        - cron: "10 23,4,11 * * *" #在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次，也就是每天备份三次
-    jobs:
-      backup-notion:
-        runs-on: ubuntu-latest
-        steps:
-          - name: checkout
-            uses: actions/checkout@v2
-          - uses: actions/setup-node@v2
-            with:
-              node-version: "17"
-          - run: npm install
-          - name: build script
-            run: npm run build
-            continue-on-error: true
-          - run: npm run run-backup $NOTION_BLOCK_ID
-          - name: backup as artifact
-            uses: actions/upload-artifact@v3
-            with: 
-              name: notion-backup-zip
-              path: backupZip
 
+  on:
+    push:
+    schedule:
+      - cron: "10 23,4,11 * * *" #在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次，也就是每天备份三次
+  jobs:
+    backup-notion:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - uses: actions/setup-node@v2
+          with:
+            node-version: "17"
+        - run: npm install
+        - name: build script
+          run: npm run build
+          continue-on-error: true
+        - run: npm run run-backup $NOTION_PAGE_IDS
+        - name: backup as artifact
+          uses: actions/upload-artifact@v3
+          with: 
+            name: notion-backup-zip
+            path: backupZip
     ```
 4. 本地仓库根目录运行 `git commit` ， `git push`
 
