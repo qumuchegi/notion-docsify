@@ -48,7 +48,7 @@
         - name: build script
           run: npm run build
           continue-on-error: true
-        - run: npm run run-backup ${{ NOTION_PAGE_IDS }}
+        - run: npm run run-backup ${{ secrets.NOTION_PAGE_IDS }}
         - name: backup as artifact
           uses: actions/upload-artifact@v3
           with: 
