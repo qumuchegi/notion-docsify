@@ -25,8 +25,8 @@
 
    另外注意的是，你不需要单独把子页面的 id 加到这个变量，只要有父页面的 id，子页面也会被备份，父页面下的所有子页面会被递归备份。
 
-    ```yml title=".github/workflows/backupAction.yml 执行备份的 action"
-    name: backup-notion
+```yml title=".github/workflows/backupAction.yml 执行备份的 action"
+  name: backup-notion
 
   on:
   name: backup-notion
