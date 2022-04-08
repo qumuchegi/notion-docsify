@@ -19,12 +19,15 @@
    
 2. fork 此项目仓库
 
-3. git clone 这个仓库在你本地，然后打开 `.github/wrokflows/testAction.yml`，把 `NOTION_BLOCK_ID` 后面那一行的内容改成你自己的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
+3. git clone 这个仓库在你本地，然后打开 `Setting, 设置环境变量 `NOTION_PAGE_IDS`, 变量的值是你需要备份的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
 
-   另外注意的是，你不需要单独把子页面的 id 放在这里，只要有父页面的 id，子页面也会被备份，父页面下的所有子页面会被递归备份。
+   另外注意的是，你不需要单独把子页面的 id 加到这个变量，只要有父页面的 id，子页面也会被备份，父页面下的所有子页面会被递归备份。
 
-    ```yml
+    ```yml title=".github/workflows/backupAction.yml 执行备份的 action"
     name: backup-notion
+
+  on:
+  name: backup-notion
 
   on:
     push:
@@ -43,13 +46,13 @@
         - name: build script
           run: npm run build
           continue-on-error: true
-        - run: npm run run-backup $NOTION_PAGE_IDS
+        - run: npm run run-backup ${{ NOTION_PAGE_IDS }}
         - name: backup as artifact
           uses: actions/upload-artifact@v3
           with: 
             name: notion-backup-zip
             path: backupZip
-    ```
+```
 4. 本地仓库根目录运行 `git commit` ， `git push`
 
     这个 `.github/wrokflows.testAction.yml` 会每天三次做一次自动备份。备份的结果会放在每次备份任务的 `Artifacts`，你可以在这里 (Actions) 下载备份结果。
