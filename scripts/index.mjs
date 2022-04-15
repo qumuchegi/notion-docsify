@@ -19,7 +19,6 @@ if (!process.argv[3]) {
 
 // 测试 notion page id：917c1456eb6b472590f3611fb57b691c（子页面不是直接子页面，而是其他页面的链接）
 const blockIdArr = process.argv[2].split(',').map(id => id.trim())
-const notionToken = process.argv[3]
 const exportFileType = 'html' // process.argv[3]
 
 console.log('this is notion block id you want to back up:\n')
