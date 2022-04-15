@@ -2,10 +2,14 @@ name: backup-notion
 
 on:
   push:
-    - main
+    branches:
+      - main
   fork:
-    - main
+    branches:
+      - main
   schedule:
+    branches:
+      - main
     - cron: "10 23,4,11 * * *" #在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次，也就是每天备份三次
 jobs:
   backup-notion:
