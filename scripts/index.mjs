@@ -13,8 +13,8 @@ console.log('reading notion page id from your cmd argv ...')
 if (!process.argv[2]) {
   throw 'can not get notion page id! please add notion page ids on github setting secret'
 }
-if (process.argv[3]) {
-  throw 'can not get notion token! please add notion page ids on github setting secret'
+if (!process.argv[3]) {
+  throw 'can not get notion token! please add notion integration token on github setting secret'
 }
 
 // 测试 notion page id：917c1456eb6b472590f3611fb57b691c（子页面不是直接子页面，而是其他页面的链接）
@@ -24,9 +24,9 @@ const exportFileType = 'html' // process.argv[3]
 
 console.log('this is notion block id you want to back up:\n')
 console.log(blockIdArr)
-
+console.log({notionToken})
 const NC = new NotionAPI({
-  notionToken: notionToken
+  authToken: notionToken
 })
 
 function pureBlockId(blockId) {

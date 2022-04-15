@@ -2,6 +2,12 @@
 
 利用 GitHub Action 的 cron jobs 自动定时备份 notion
 
+## 数据安全
+
+1. 备份的数据只会在自己的 GitHub 账户下面可见，没有登录 GitHub 账户无法下载备份数据
+
+2. notion 页面只能通过个人的 notion integration 读取，不会分享到 web，不会被浏览和篡改内容
+
 ## 动机
 
 - notion 是美帝公司，可能由于一些政治因素国内的用户突然访问不了
@@ -12,14 +18,36 @@
 
 ## 使用指南
 
-1. 把你需要备份的 notion 页面 share, 只要点击 'Share', 打开 share to web 即可，然后复制 URL 后面那一串 id，这个 id 就是这个页面在 notion 的全局 id（注意，你不需要 share 一个页面下面的子页面，只要顶级页面 share 了，那么子页面也会被 share）:
+1. 创建一个 notion integration，
+   在 https://www.notion.so/my-integrations  创建：
 
-   ![](/readmeAssets/img/1.png)
-   比如在上面这个 notion page 上，它的 id 就是 'b01547ea....'
+   ![](/readmeAssets/img/-1.png)
+
+   点击 'Create new integration'， 进入下面的页面，填写一些字段：
+  
+   ![](/readmeAssets/img/-2.png)
+
+   点击 submit, 得到一个新 integration，可以进去把这个 integration 的 token 复制下来备用：
+
+   ![](/readmeAssets/img/-3.png)
+
+2. 复制你需要备份的 notion 页面
+
+    **邀请 integration**：在你需要备份的 notion 页面的右上角，只要点击 'Share', 点击 'invite', 选择我们刚刚新建的 　integration。
+    
+    ![](/readmeAssets/img/1.png)
+
+    **获取 notion page id**: 还是在你需要备份的 notion 页面的右上角，点击 share 后，点击 'Copy Link', 得到一个 URL，比如 `https://www.notion.so/chegi/1c3ca781039447228f3c0bbf9b8ed74c` 这个 URL 我们可以复制到浏览器上查看这个 notion 页面 (只有页面主任可以登录查看). 我们把 url 后面的一部分的最后 32 位字符串复制下来，这 32 位就是这个 notion  page id
+
+    ![](/readmeAssets/img/7.png)
+
+    （注意，你不需要 share 一个页面下面的子页面，只要顶级页面 share 了，那么子页面也会被 share）:
    
-2. fork 此项目仓库
+3. fork 此项目仓库
 
-3. 在 fork 的仓库详情页（如下图），打开 `Setting` tab, 设置环境变量 `NOTION_PAGE_IDS`, 变量的值是你需要备份的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
+4. 在 GitHub secrets 填写 integration token 和 notion page id
+
+    在 fork 的仓库详情页（如下图），打开 `Setting` tab, 设置环境变量 `NOTION_PAGE_IDS`, 变量的值是你需要备份的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
 
     ![](/readmeAssets/img/5.png)
 
@@ -27,41 +55,38 @@
 
     ![](/readmeAssets/img/6.png)
 
-   另外注意的是，你不需要单独把子页面的 id 加到这个变量，只要有父页面的 id，子页面也会被备份，父页面下的所有子页面会被递归备份。
+    同样的方法我们新建一个名为 `NOTION_TOKEN` 的环境变量，它的值是我们在上面新建的 notion integration 的 token。
 
     ```yml title=".github/workflows/backupAction.yml 执行备份的 action"
-      name: backup-notion
 
-      on:
-      name: backup-notion
+    name: backup-notion
 
-      on:
-        push:
-        schedule:
-          - cron: "10 23,4,11 * * *" #在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次，也就是每天备份三次
-      jobs:
-        backup-notion:
-          runs-on: ubuntu-latest
-          steps:
-            - name: checkout
-              uses: actions/checkout@v2
-            - uses: actions/setup-node@v2
-              with:
-                node-version: "17"
-            - run: npm install
-            - name: build script
-              run: npm run build
-              continue-on-error: true
-            - run: npm run run-backup ${{ secrets.NOTION_PAGE_IDS }}
-            - name: backup as artifact
-              uses: actions/upload-artifact@v3
-              with: 
-                name: notion-backup-zip
-                path: backupZip
+    on:
+      push:
+      schedule:
+        - cron: "10 23,4,11 * * *" #在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次，也就是每天备份三次
+    jobs:
+      backup-notion:
+        runs-on: ubuntu-latest
+        steps:
+          - name: checkout
+            uses: actions/checkout@v2
+          - uses: actions/setup-node@v2
+            with:
+              node-version: "17"
+          - run: npm install
+          - name: build script
+            run: npm run build
+            continue-on-error: true
+          - run: npm run run-backup ${{ secrets.NOTION_PAGE_IDS }} ${{ secrets.NOTION_TOKEN }}
+          - name: backup as artifact
+            uses: actions/upload-artifact@v3
+            with: 
+              name: notion-backup-zip
+              path: backupZip
+
     ```
-4. 本地仓库根目录运行 `git commit` ， `git push`
-
-    这个 `.github/wrokflows/backupAction.yml` 会每天三次做一次自动备份。备份的结果会放在每次备份任务的 `Artifacts`，你可以在这里 (Actions) 下载备份结果。
+5. 上面的步骤做好后，只需等待备份任务自动运行。备份时间是每天三次自动备份（在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次）。备份的结果会放在每次备份任务的 `Artifacts`，你可以在这里 (Actions) 下载备份结果。
 
     ![](/readmeAssets/img/4.png)
 
