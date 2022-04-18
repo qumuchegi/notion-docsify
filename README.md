@@ -21,7 +21,7 @@
 1. 获取 Notion 的 token_v2，
    
    打开 `https://www.notion.so`，用你自己的账户登录，登录后，
-   f12 打开开发者面板，在 ‘应用’ => 'Cookie' => 'token_v2'， 复制 token_v2
+   f12 打开开发者面板，在 ‘应用’ => 'Cookie' => 'token_v2'， 复制 token_v2 的值
 
     ![](/readmeAssets/img/-1.png)
 
@@ -47,35 +47,6 @@
 
     同样的方法我们新建一个名为 `NOTION_TOKEN` 的环境变量，它的值是我们在上面复制的 token_v2。
 
-    ```yml title=".github/workflows/backupAction.yml 执行备份的 action"
-
-    name: backup-notion
-
-    on:
-      push:
-      schedule:
-        - cron: "10 23,4,11 * * *" #在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次，也就是每天备份三次
-    jobs:
-      backup-notion:
-        runs-on: ubuntu-latest
-        steps:
-          - name: checkout
-            uses: actions/checkout@v2
-          - uses: actions/setup-node@v2
-            with:
-              node-version: "17"
-          - run: npm install
-          - name: build script
-            run: npm run build
-            continue-on-error: true
-          - run: npm run run-backup ${{ secrets.NOTION_PAGE_IDS }} ${{ secrets.NOTION_TOKEN }}
-          - name: backup as artifact
-            uses: actions/upload-artifact@v3
-            with: 
-              name: notion-backup-zip
-              path: backupZip
-
-    ```
 5. 上面的步骤做好后，只需等待备份任务自动运行。备份时间是每天三次自动备份（在北京时间 早上 7:10、中午 12:10、晚上 19:10 点各备份一次）。备份的结果会放在每次备份任务的 `Artifacts`，你可以在这里 (Actions) 下载备份结果。
 
     ![](/readmeAssets/img/4.png)
