@@ -6,7 +6,7 @@
 
 1. 备份的数据只会在自己的 GitHub 账户下面可见，没有登录 GitHub 账户无法下载备份数据
 
-2. notion 页面只能通过个人的 notion integration 读取，不会分享到 web，不会被浏览和篡改内容
+2. notion 页面只能通过个人的 token 读取，不会分享到 web，不会被浏览和篡改内容
 
 ## 动机
 
