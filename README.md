@@ -18,26 +18,16 @@
 
 ## 使用指南
 
-1. 创建一个 notion integration，
-   在 https://www.notion.so/my-integrations  创建：
+1. 获取 Notion 的 token_v2，
+   
+   打开 `https://www.notion.so`，用你自己的账户登录，登录后，
+   f12 打开开发者面板，在 ‘应用’ => 'Cookie' => 'token_v2'， 复制 token_v2
 
-   ![](/readmeAssets/img/-1.png)
-
-   点击 'Create new integration'， 进入下面的页面，填写一些字段：
-  
-   ![](/readmeAssets/img/-2.png)
-
-   点击 submit, 得到一个新 integration，可以进去把这个 integration 的 token 复制下来备用：
-
-   ![](/readmeAssets/img/-3.png)
+    ![](/readmeAssets/img/-1.png)
 
 2. 复制你需要备份的 notion 页面
 
-    **邀请 integration**：在你需要备份的 notion 页面的右上角，只要点击 'Share', 点击 'invite', 选择我们刚刚新建的 　integration。
-    
-    ![](/readmeAssets/img/1.png)
-
-    **获取 notion page id**: 还是在你需要备份的 notion 页面的右上角，点击 share 后，点击 'Copy Link', 得到一个 URL，比如 `https://www.notion.so/chegi/1c3ca781039447228f3c0bbf9b8ed74c` 这个 URL 我们可以复制到浏览器上查看这个 notion 页面 (只有页面主任可以登录查看). 我们把 url 后面的一部分的最后 32 位字符串复制下来，这 32 位就是这个 notion  page id
+    **获取 notion page id**: 在你需要备份的 notion 页面的右上角，点击 share 后，点击 'Copy Link', 得到一个 URL，比如 `https://www.notion.so/chegi/1c3ca781039447228f3c0bbf9b8ed74c` 这个 URL 我们可以复制到浏览器上查看这个 notion 页面 (只有页面主任可以登录查看). 我们把 url 后面的一部分的最后 32 位字符串复制下来，这 32 位就是这个 notion  page id
 
     ![](/readmeAssets/img/7.png)
 
@@ -45,7 +35,7 @@
    
 3. fork 此项目仓库
 
-4. 在 GitHub secrets 填写 integration token 和 notion page id
+4. 在 GitHub secrets 填写 token_v2 和 notion page id
 
     在 fork 的仓库详情页（如下图），打开 `Setting` tab, 设置环境变量 `NOTION_PAGE_IDS`, 变量的值是你需要备份的 notion 页面的 id。（**如果有多个页面，就用 ',' 隔开，需要注意： 1. 要用英文的顿号；2. 顿号前后不要留空格**）
 
@@ -55,7 +45,7 @@
 
     ![](/readmeAssets/img/6.png)
 
-    同样的方法我们新建一个名为 `NOTION_TOKEN` 的环境变量，它的值是我们在上面新建的 notion integration 的 token。
+    同样的方法我们新建一个名为 `NOTION_TOKEN` 的环境变量，它的值是我们在上面复制的 token_v2。
 
     ```yml title=".github/workflows/backupAction.yml 执行备份的 action"
 
@@ -97,6 +87,11 @@
      下载备份结果到本地，解压，只需要把顶级的 `index.html` 在浏览器打开，里面的子页面的链接会自动改成本地的地址，点击 `index.html` 里面的链接可以在浏览器自动打开子页面。
 
      ![](/readmeAssets/img/3.png)
+
+  6. 定期更新 `token_v2`
+  
+      `token_v2` 的有效期为 1 年，如果过期了，你需要再按照地 1 步和第 4 步更新 `token_v2`。
+
 
 ## 目前存在问题
 
