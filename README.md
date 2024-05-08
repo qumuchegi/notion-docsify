@@ -4,7 +4,8 @@
 
 ## 数据安全
 
-1. 备份的数据只会在自己的 GitHub 账户下面可见，没有登录 GitHub 账户无法下载备份数据
+1. 将项目设置为私有仓库，那么备份的数据只会在自己的 GitHub 账户下面可见，没有登录 GitHub 账户无法下载备份数据
+   >可以在 GitHub 上将fork后的此项目设置为私有仓库，这样可以保护你的备份笔记不会被其他人看到。将项目转为私有仓库的方法： setting => Danger Zone => Change repository visibility => change visibility
 
 2. notion 页面只能通过个人的 token 读取，不会分享到 web，不会被浏览和篡改内容
 
